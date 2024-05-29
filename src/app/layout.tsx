@@ -16,11 +16,11 @@ export default function RootLayout({
   return (
     <html lang="en">
         <body>
-          <AptosWalletAdapterProvider autoConnect={true}>
-            <Theme accentColor="crimson" grayColor="sand" radius="large" scaling="95%" appearance="dark">
+          <Theme accentColor="crimson" grayColor="sand" radius="large" scaling="95%" appearance="dark">
+            <AptosWalletAdapterProvider>
               {children}
-            </Theme>
-          </AptosWalletAdapterProvider>
+            </AptosWalletAdapterProvider>
+          </Theme>
         </body>
     </html>
   );
