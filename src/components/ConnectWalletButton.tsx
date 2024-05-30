@@ -1,6 +1,5 @@
 import { Button, Box, Spinner, Text } from "@radix-ui/themes"
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
-import { PetraWalletName } from "petra-plugin-wallet-adapter";
 
 export default function ConnectWalletButton() {
     const {
@@ -23,7 +22,7 @@ export default function ConnectWalletButton() {
             </Button>
             <Text> - or - </Text>
             <Button color="pink" onClick={
-                () => onConnect(PetraWalletName)
+                () => onConnect("Petra")
             }>
                 <Spinner loading={isLoading}>
                     Connect Petra Wallet

@@ -28,7 +28,7 @@ export default function SwapBox() {
                 if (toks[i].symbol === "CAKE")
                     toks[i].address = "0xe0e5ad285cbcdb873b2ee15bb6bcac73d9d763bcb58395e894255eeecf3992cf::pancake::Cake"
             }
-            console.log(toks)
+            // console.log(toks)
             setTokens(toks)
             // console.log(data.tokens)
         }
