@@ -7,7 +7,7 @@ export default function From({ aptos, tokens, selectedToken, setSelectedToken, s
     const [aptAmount, setAptAmount] = useState(0)
 
     async function getAPTAmount(token) {
-        console.log(token)
+        // console.log(token)
         try{
             const resource = await aptos.getAccountResource({
                 accountAddress: account.address,
