@@ -16,7 +16,6 @@ export default function From({ aptos, tokens, selectedToken, setSelectedToken, s
         
             if (resource) {
                 const value = resource.coin.value / 100000000
-                console.log(value)
                 setAptAmount(value)
             } else {
                 console.log("Token not found")
@@ -30,8 +29,8 @@ export default function From({ aptos, tokens, selectedToken, setSelectedToken, s
     
     const handleChange = (e) => {
         setSwapAmount(e.target.valueAsNumber)
-        console.log(swapAmount)
-        setConvertedAmount(swapAmount)
+        if (selectedToken.symbol === "APT") setConvertedAmount(swapAmount * 0.00014918)
+        if (selectedToken.symbol === "CAKE") setConvertedAmount(swapAmount / 0.00014918)
     }
 
     return (
@@ -49,6 +48,7 @@ export default function From({ aptos, tokens, selectedToken, setSelectedToken, s
                                         <Avatar
                                             src={selectedToken.logoURI}
                                             fallback="A"
+                                            size="1"
                                         />
                                         <Text>{selectedToken.symbol}</Text>
                                     </Box>
@@ -66,6 +66,7 @@ export default function From({ aptos, tokens, selectedToken, setSelectedToken, s
                                     <Avatar
                                         src={token.logoURI}
                                         fallback="A"
+                                        size="1"
                                     />
                                     <Text>{token.symbol}</Text>
                                 </DropdownMenu.Item>

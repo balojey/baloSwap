@@ -1,30 +1,25 @@
-# React + TypeScript + Vite
+# BaloSwap
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+ BaloSwap is an Aptos Token Swap Interface: a decentralized application (dApp) that enables users to seamlessly swap tokens on the Aptos blockchain. Developed using TypeScript, Radix UI, and the Aptos React Wallet Adapter, this user-friendly platform allows for easy wallet connection, token selection, and transaction execution.
 
-Currently, two official plugins are available:
+**Key Features:**
+- **Wallet Integration:** Securely connect and interact with your Aptos wallet using the Aptos React Wallet Adapter.
+- **Token Selection:** Choose from a variety of tokens available on the Aptos blockchain.
+- **Amount Specification:** Input precise amounts for token swaps to ensure accurate transactions.
+- **Real-time Updates:** Receive instant feedback and updates on swap transaction statuses.
+- **Intuitive UI:** Enjoy a streamlined and visually appealing interface built with Radix UI for a superior user experience.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Experience fast, secure, and efficient token swaps with our Aptos Token Swap Interface.
 
-## Expanding the ESLint configuration
+## Setup
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+1. Clone repo and change directory:
+```bash
+  git clone https://github.com/balojey/baloswap ; cd baloswap
+```
+2. Install depedencies and run app:
+```bash
+  npm install ; npm run dev
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+Thanks.

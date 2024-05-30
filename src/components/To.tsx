@@ -16,6 +16,7 @@ export default function To({ tokens, selectedToken, setSelectedToken, convertedA
                                         <Avatar
                                             src={selectedToken.logoURI}
                                             fallback="A"
+                                            size="1"
                                         />
                                         <Text>{selectedToken.symbol}</Text>
                                     </Box>
@@ -32,6 +33,7 @@ export default function To({ tokens, selectedToken, setSelectedToken, convertedA
                                     <Avatar
                                         src={token.logoURI}
                                         fallback="A"
+                                        size="1"
                                     />
                                     <Text>{token.symbol}</Text>
                                 </DropdownMenu.Item>
@@ -39,12 +41,12 @@ export default function To({ tokens, selectedToken, setSelectedToken, convertedA
                         </DropdownMenu.Content>
                     </DropdownMenu.Root>
                 </Flex>
-                <Flex gap="5" direction="column">
+                {/* <Flex gap="5" direction="column">
                     <Strong>Amount</Strong>
                     <TextField.Root placeholder={convertedAmount} size="3" disabled>
                         <TextField.Slot />
                     </TextField.Root>
-                </Flex>
+                </Flex> */}
             </Flex>
         </Flex>
     )
