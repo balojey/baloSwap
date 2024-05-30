@@ -18,7 +18,7 @@ export default function SwapButton({ aptos, swapAmount, convertedAmount, fromTok
             data: {
                 function: "0xc7efb4076dbe143cbcd98cfaaa929ecfc8f299203dfff63b95ccb6bfe19850fa::router::swap_exact_input",
                 typeArguments: [fromToken.address, toToken.address],
-                functionArguments: [swapAmount * 100000000, Math.trunc((convertedAmount * 100000000) + (convertedAmount * 0.02 / 100))],
+                functionArguments: [swapAmount * 100000000, Math.floor((convertedAmount * 100000000) + (convertedAmount * 0.02 / 100))],
             },
         });
         // if you want to wait for transaction
