@@ -1,9 +1,6 @@
 import { Flex, Text, Strong, Box, DropdownMenu, Button, TextField, Avatar } from "@radix-ui/themes"
-import { useState } from "react"
 
-export default function To({ tokens }) {
-    const [selectedToken, setSelectedToken] = useState(tokens[0])
-
+export default function To({ tokens, selectedToken, setSelectedToken, convertedAmount }) {
     return (
         <Flex gap="5" direction="column">
             <Text size="5">To</Text>
@@ -44,7 +41,7 @@ export default function To({ tokens }) {
                 </Flex>
                 <Flex gap="5" direction="column">
                     <Strong>Amount</Strong>
-                    <TextField.Root placeholder="Enter amount...">
+                    <TextField.Root placeholder={convertedAmount} size="3" disabled>
                         <TextField.Slot />
                     </TextField.Root>
                 </Flex>

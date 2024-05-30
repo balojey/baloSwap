@@ -1,8 +1,38 @@
 import { Flex, Text, Strong, Box, DropdownMenu, Button, TextField, Avatar } from "@radix-ui/themes"
-import { useState } from "react"
+import { useWallet } from "@aptos-labs/wallet-adapter-react"
+import { useState, useEffect } from "react"
 
-export default function From({ tokens }) {
-    const [selectedToken, setSelectedToken] = useState(tokens[0])
+export default function From({ aptos, tokens, selectedToken, setSelectedToken, swapAmount, setSwapAmount, setConvertedAmount }) {
+    const { account } = useWallet()
+    const [aptAmount, setAptAmount] = useState()
+
+    async function getAPTAmount(token) {
+        console.log(token)
+        try{
+            const resource = await aptos.getAccountResource({
+                accountAddress: account.address,
+                resourceType: `0x1::coin::CoinStore<${token.address}>`,
+            });
+        
+            if (resource) {
+                const value = resource.coin.value / 100000000
+                console.log(value)
+                setAptAmount(value)
+            } else {
+                console.log("Token not found")
+                setAptAmount(0)
+            }
+        } catch (error) {
+            console.error("Error fetching token details:", error);
+            setAptAmount(0)
+        }
+    }
+    
+    const handleChange = (e) => {
+        setSwapAmount(e.target.valueAsNumber)
+        console.log(swapAmount)
+        setConvertedAmount(swapAmount)
+    }
 
     return (
         <Flex gap="5" direction="column">
@@ -29,8 +59,9 @@ export default function From({ tokens }) {
                         </DropdownMenu.Trigger>
                         <DropdownMenu.Content>
                             {tokens.map((token, index) => (
-                                <DropdownMenu.Item key={index} onSelect={() => {
+                                <DropdownMenu.Item key={index} onSelect={async () => {
                                     setSelectedToken(token)
+                                    await getAPTAmount(token)
                                 }}>
                                     <Avatar
                                         src={token.logoURI}
@@ -44,9 +75,10 @@ export default function From({ tokens }) {
                 </Flex>
                 <Flex gap="5" direction="column">
                     <Strong>Amount</Strong>
-                    <TextField.Root placeholder="Enter amount...">
+                    <TextField.Root placeholder={swapAmount} size="3" type="number" onChange={handleChange}>
                         <TextField.Slot />
                     </TextField.Root>
+                    <Text size="1">Balance: {aptAmount}</Text>
                 </Flex>
             </Flex>
         </Flex>

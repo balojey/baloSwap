@@ -3,10 +3,11 @@ import { Button, Spinner } from "@radix-ui/themes"
 import { AptoswapClient, TransactionOperation } from "@vividnetwork/swap-sdk"
 import { useState } from "react"
 
-export default function SwapButton({ aptos }) {
+export default function SwapButton({ aptos, swapAmount, fromToken, toToken }) {
 
     const { account } = useWallet()
     const [swapLoading, setSwapLoading] = useState(false)
+    const [tokenFrom, setTokenFrom] = useState()
 
     // Suggested code may be subject to a license. Learn more: ~LicenseLog:1672269811.
     const swap = async () => {
@@ -16,12 +17,12 @@ export default function SwapButton({ aptos }) {
         const { pools, coins } = await aptoswap?.getCoinsAndPools()
 
         const pool = pools.filter(p => 
-            p.type.xTokenType.name === `${packageAddr}::pool::TestToken` &&
-            p.type.yTokenType.name === "0x1::aptos_coin::AptosCoin"
+            p.type.xTokenType.name === fromToken.address &&
+            p.type.yTokenType.name === toToken.address
         )[0]
 
         if (pool === undefined) {
-            // console.log(packageAddr)
+            console.log(pools)
             // pools.filter(p => console.log(p.type.xTokenType.name))
             // console.log("========================================")
             // pools.filter(p => console.log(p.type.yTokenType.name))
@@ -34,7 +35,7 @@ export default function SwapButton({ aptos }) {
             operation: "swap",
             pool: pool,
             direction: "reverse",
-            amount: BigInt("100000")
+            amount: BigInt(swapAmount * 100000000)
         }
 
         const result = await aptoswap?.execute(operation, account, { maxGasAmount: BigInt("4000") })
