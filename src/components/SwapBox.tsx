@@ -44,7 +44,7 @@ export default function SwapBox() {
             <Flex gap="7" direction="column" align="center">
                 <From aptos={aptos} tokens={tokens} selectedToken={fromToken} setSelectedToken={setFromToken} swapAmount={swapAmount} setSwapAmount={setSwapAmount} setConvertedAmount={setConvertedAmount} />
                 <hr />
-                <To tokens={tokens} selectedToken={toToken} setSelectedToken={setToToken} convertedAmount={convertedAmount} />
+                <To tokens={tokens} selectedToken={toToken} setSelectedToken={setToToken} />
                 <SwapButton aptos={aptos} swapAmount={swapAmount} convertedAmount={convertedAmount} fromToken={fromToken} toToken={toToken} />
             </Flex>
         </Box>

@@ -1,10 +1,10 @@
 import { Flex, Text, Strong, Box, DropdownMenu, Button, TextField, Avatar } from "@radix-ui/themes"
 import { useWallet } from "@aptos-labs/wallet-adapter-react"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 
 export default function From({ aptos, tokens, selectedToken, setSelectedToken, swapAmount, setSwapAmount, setConvertedAmount }) {
     const { account } = useWallet()
-    const [aptAmount, setAptAmount] = useState()
+    const [aptAmount, setAptAmount] = useState(0)
 
     async function getAPTAmount(token) {
         console.log(token)

@@ -1,6 +1,6 @@
-import { Flex, Text, Strong, Box, DropdownMenu, Button, TextField, Avatar } from "@radix-ui/themes"
+import { Flex, Text, Strong, Box, DropdownMenu, Button, Avatar } from "@radix-ui/themes"
 
-export default function To({ tokens, selectedToken, setSelectedToken, convertedAmount }) {
+export default function To({ tokens, selectedToken, setSelectedToken }) {
     return (
         <Flex gap="5" direction="column">
             <Text size="5">To</Text>
