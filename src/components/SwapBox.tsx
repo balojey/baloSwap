@@ -4,6 +4,7 @@ import To from "./To";
 import SwapButton from "./SwapButton";
 import { useEffect, useState } from "react";
 import { Aptos, AptosConfig, Network } from "@aptos-labs/ts-sdk";
+import { AptoswapClient } from "@vividnetwork/swap-sdk";
 
 export default function SwapBox() {
     // with custom configuration
@@ -12,12 +13,33 @@ export default function SwapBox() {
     // console.log(aptos)
 
     const [tokens, setTokens] = useState([])
+    const [xTokens, setXTokens] = useState([])
+    const [yTokens, setYTokens] = useState([])
     const [fromToken, setFromToken] = useState()
     const [toToken, setToToken] = useState()
     const [swapAmount, setSwapAmount] = useState(0)
     const [convertedAmount, setConvertedAmount] = useState(0)
 
     useEffect(() => {
+
+        async function initTokens() {
+            const aptoswap = (await AptoswapClient.fromHost("https://aptoswap.net"))!;
+            const { pools } = await aptoswap.getCoinsAndPools();
+            console.log(pools)
+
+            const xtoks = []
+            for (let i = 0; i < pools.length; i++) {
+                const t = pools[i].type.xTokenType
+                t.symbol = t.name.split("::")[2]
+                if (xtoks.find(x => x.symbol === t.symbol)) continue
+                xtoks.push(t)
+            }
+
+            console.log(xtoks)
+            
+            setXTokens(xtoks)
+        }
+
         // Suggested code may be subject to a license. Learn more: ~LicenseLog:2423056149.
         // Suggested code may be subject to a license. Learn more: ~LicenseLog:3078297616.
         async function getTokens() {
@@ -32,6 +54,7 @@ export default function SwapBox() {
             setTokens(toks)
             // console.log(data.tokens)
         }
+        initTokens()
         getTokens()
     }, [])
 
@@ -42,9 +65,9 @@ export default function SwapBox() {
             style={{ backgroundColor: 'var(--gray-a2)', borderRadius: 'var(--radius-3)' }}
         >
             <Flex gap="7" direction="column" align="center">
-                <From aptos={aptos} tokens={tokens} selectedToken={fromToken} setSelectedToken={setFromToken} swapAmount={swapAmount} setSwapAmount={setSwapAmount} setConvertedAmount={setConvertedAmount} />
+                <From aptos={aptos} tokens={xTokens} yTokens={yTokens} setYTokens={setYTokens} selectedToken={fromToken} setSelectedToken={setFromToken} swapAmount={swapAmount} setSwapAmount={setSwapAmount} setConvertedAmount={setConvertedAmount} />
                 <hr />
-                <To tokens={tokens} selectedToken={toToken} setSelectedToken={setToToken} />
+                <To tokens={yTokens} toToken={toToken} fromToken={fromToken} swapAmount={swapAmount} convertedAmount={convertedAmount} setConvertedAmount={setConvertedAmount} setToToken={setToToken} />
                 <SwapButton aptos={aptos} swapAmount={swapAmount} convertedAmount={convertedAmount} fromToken={fromToken} toToken={toToken} />
             </Flex>
         </Box>

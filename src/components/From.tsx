@@ -1,17 +1,19 @@
 import { Flex, Text, Strong, Box, DropdownMenu, Button, TextField, Avatar } from "@radix-ui/themes"
 import { useWallet } from "@aptos-labs/wallet-adapter-react"
 import { useState } from "react"
+import { AptoswapClient, TransactionOperation } from "@vividnetwork/swap-sdk";
 
-export default function From({ aptos, tokens, selectedToken, setSelectedToken, swapAmount, setSwapAmount, setConvertedAmount }) {
+export default function From({ aptos, tokens, yTokens, setYTokens, selectedToken, setSelectedToken, swapAmount, setSwapAmount, setConvertedAmount }) {
     const { account } = useWallet()
     const [aptAmount, setAptAmount] = useState(0)
+    console.log(account)
 
     async function getAPTAmount(token) {
         // console.log(token)
         try{
             const resource = await aptos.getAccountResource({
                 accountAddress: account.address,
-                resourceType: `0x1::coin::CoinStore<${token.address}>`,
+                resourceType: `0x1::coin::CoinStore<${token.name}>`,
             });
         
             if (resource) {
@@ -31,6 +33,27 @@ export default function From({ aptos, tokens, selectedToken, setSelectedToken, s
         setSwapAmount(e.target.valueAsNumber)
         if (selectedToken.symbol === "APT") setConvertedAmount(swapAmount * 0.00014918)
         if (selectedToken.symbol === "CAKE") setConvertedAmount(swapAmount / 0.00014918)
+        
+    }
+
+    const handleSelectYTokens = async () => {
+        const aptoswap = (await AptoswapClient.fromHost("https://aptoswap.net"))!;
+        const { pools } = await aptoswap.getCoinsAndPools();
+
+        const ytoks = []
+        for (let i = 0; i < pools.length; i++) {
+            const pool = pools[i]
+            if (pool.type.xTokenType.name !== selectedToken.name) continue
+            const t = pool.type.yTokenType
+            t.symbol = t.name.split("::")[2]
+            if (ytoks.find(x => x.symbol === t.symbol)) continue
+            // if (ytoks.find(x => x.symbol === selectedToken.symbol)) continue
+            ytoks.push(t)
+        }
+
+        console.log(ytoks)
+        setYTokens(ytoks)
+        setYTokens(ytoks)
     }
 
     return (
@@ -62,6 +85,7 @@ export default function From({ aptos, tokens, selectedToken, setSelectedToken, s
                                 <DropdownMenu.Item key={index} onSelect={async () => {
                                     setSelectedToken(token)
                                     await getAPTAmount(token)
+                                    await handleSelectYTokens()
                                 }}>
                                     <Avatar
                                         src={token.logoURI}
