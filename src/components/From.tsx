@@ -2,7 +2,7 @@ import { Flex, Text, Strong, Box, DropdownMenu, Button, TextField, Avatar } from
 import { useWallet } from "@aptos-labs/wallet-adapter-react"
 import { useState } from "react"
 
-export default function From({ aptos, tokens, toToken, yTokens, setYTokens, selectedToken, setSelectedToken, swapAmount, setSwapAmount, setConvertedAmount }) {
+export default function From({ aptos, tokens, toToken, setYTokens, selectedToken, setSelectedToken, swapAmount, setSwapAmount, setConvertedAmount }) {
     const { account } = useWallet()
     const [aptAmount, setAptAmount] = useState(0)
 

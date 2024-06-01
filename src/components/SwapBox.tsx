@@ -94,7 +94,7 @@ export default function SwapBox() {
             style={{ backgroundColor: 'var(--gray-a2)', borderRadius: 'var(--radius-3)' }}
         >
             <Flex gap="7" direction="column" align="center">
-                <From aptos={aptos} tokens={xTokens} toToken={toToken} yTokens={yTokens} setYTokens={setYTokens} selectedToken={fromToken} setSelectedToken={setFromToken} swapAmount={swapAmount} setSwapAmount={setSwapAmount} setConvertedAmount={setConvertedAmount} />
+                <From aptos={aptos} tokens={xTokens} toToken={toToken} setYTokens={setYTokens} selectedToken={fromToken} setSelectedToken={setFromToken} swapAmount={swapAmount} setSwapAmount={setSwapAmount} setConvertedAmount={setConvertedAmount} />
                 <hr />
                 <To tokens={yTokens} toToken={toToken} fromToken={fromToken} swapAmount={swapAmount} convertedAmount={convertedAmount} setConvertedAmount={setConvertedAmount} setToToken={setToToken} />
                 <SwapButton aptos={aptos} swapAmount={swapAmount} convertedAmount={convertedAmount} fromToken={fromToken} toToken={toToken} />
