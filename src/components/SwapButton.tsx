@@ -1,8 +1,7 @@
 import { useWallet } from "@aptos-labs/wallet-adapter-react"
 import { Button, Spinner } from "@radix-ui/themes"
 import { useState } from "react"
-import { AptoswapClient } from "@vividnetwork/swap-sdk"
-import { AptosAccount } from "aptos"
+import { MoveStructId } from "@aptos-labs/ts-sdk"
 
 export default function SwapButton({ aptos, swapAmount, convertedAmount, fromToken, toToken }) {
 
@@ -16,35 +15,38 @@ export default function SwapButton({ aptos, swapAmount, convertedAmount, fromTok
     const swap = async () => {
         setSwapLoading(true)
 
-        // const aptoswap = (await AptoswapClient.fromHost("https://aptoswap.net"))!;
-        // const packageAddr = aptoswap.getPackageAddress();
+        const exp = Math.floor(Date.now() / 1000) + 60 * 10
 
-        // const exp = Math.floor(Date.now() / 1000) + 60 * 10
-        // console.log(exp)
         console.log(fromToken, toToken)
-        // const response = await signAndSubmitTransaction({
-        //     sender: account?.address,
-        //     data: {
-        //         function: `${packageAddr}::pool::swap_y_to_x`,
-        //         // "0xc7efb4076dbe143cbcd98cfaaa929ecfc8f299203dfff63b95ccb6bfe19850fa::router::swap_exact_input",
-        //         typeArguments: [toToken.name, fromToken.name],
-        //         functionArguments: [BigInt(swapAmount * 100000000), BigInt(Math.trunc(convertedAmount * 100000000))],
-        //     },
-        //     options: {
-        //         expireTimestamp: exp,
-        //     }
-        // });
+        
+        let func: MoveStructId = "0xa5d3ac4d429052674ed38adc62d010e52d7c24ca159194d17ddc196ddb7e480b::pool::swap_y_to_x"
+        let typeArgs = [toToken.address, fromToken.address]
+        const funcArgs = [BigInt(swapAmount * 100000000), BigInt(Math.trunc(convertedAmount * 100000000))]
 
-        // const act = new AptosAccount(account.address)
+        if (
+            (fromToken.symbol === "CAKE" && toToken.symbol === "APT") 
+            || (fromToken.symbol === "APT" && toToken.symbol === "CAKE")) {
+                func = "0xc7efb4076dbe143cbcd98cfaaa929ecfc8f299203dfff63b95ccb6bfe19850fa::router::swap_exact_input"
+                typeArgs = [fromToken.address, toToken.address]
+        }
+
+        const response = await signAndSubmitTransaction({
+            sender: account?.address,
+            data: {
+                function: func,
+                typeArguments: typeArgs,
+                functionArguments: funcArgs,
+            },
+            options: {
+                expireTimestamp: exp,
+            }
+        });
 
         // if you want to wait for transaction
         try {
             await aptos.waitForTransaction({ transactionHash: response.hash });
-            console.log("Transaction confirmed");
         } catch (error) {
             console.error(error);
-            setSwapLoading(false)
-            return
         }
         setSwapLoading(false)
     }

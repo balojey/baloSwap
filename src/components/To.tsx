@@ -1,5 +1,4 @@
 import { Flex, Text, Strong, Box, DropdownMenu, Button, Avatar, TextField } from "@radix-ui/themes"
-import { AptoswapClient } from "@vividnetwork/swap-sdk";
 
 export default function To({ tokens, toToken, fromToken, swapAmount, setConvertedAmount, convertedAmount, setToToken }) {
     return (
@@ -28,17 +27,9 @@ export default function To({ tokens, toToken, fromToken, swapAmount, setConverte
                         </DropdownMenu.Trigger>
                         <DropdownMenu.Content>
                             {tokens.map((token, index) => (
-                                <DropdownMenu.Item key={index} onSelect={async () => {
+                                <DropdownMenu.Item key={index} onSelect={() => {
                                     setToToken(token)
-
-                                    const aptoswap = (await AptoswapClient.fromHost("https://aptoswap.net"))!;
-                                    const { pools } = await aptoswap.getCoinsAndPools();
-                                    const pool = pools.filter(p => p.type.xTokenType.name === fromToken.name && p.type.yTokenType.name === toToken.name)[0];
-                                    console.log(pool)
-                                    if (!pool) return
-                                    const amt = pool.getXToYAmount(BigInt(swapAmount * 100000000))
-                                    console.log(amt)
-                                    setConvertedAmount(Number(amt) / 100000000)
+                                    setConvertedAmount(swapAmount * (1 / fromToken.rate) * toToken.rate)
                                 }}>
                                     <Avatar
                                         src={token.logoURI}
