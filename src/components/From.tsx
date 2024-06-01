@@ -2,12 +2,11 @@ import { Flex, Text, Strong, Box, DropdownMenu, Button, TextField, Avatar } from
 import { useWallet } from "@aptos-labs/wallet-adapter-react"
 import { useState } from "react"
 
-export default function From({ aptos, tokens, selectedToken, setSelectedToken, swapAmount, setSwapAmount, setConvertedAmount }) {
+export default function From({ aptos, tokens, toToken, yTokens, setYTokens, selectedToken, setSelectedToken, swapAmount, setSwapAmount, setConvertedAmount }) {
     const { account } = useWallet()
     const [aptAmount, setAptAmount] = useState(0)
 
     async function getAPTAmount(token) {
-        // console.log(token)
         try{
             const resource = await aptos.getAccountResource({
                 accountAddress: account.address,
@@ -28,9 +27,26 @@ export default function From({ aptos, tokens, selectedToken, setSelectedToken, s
     }
     
     const handleChange = (e) => {
-        setSwapAmount(e.target.valueAsNumber)
-        if (selectedToken.symbol === "APT") setConvertedAmount(swapAmount * 0.00014918)
-        if (selectedToken.symbol === "CAKE") setConvertedAmount(swapAmount / 0.00014918)
+        if (e.target.valueAsNumber < 0 || Number.isNaN(e.target.valueAsNumber)) {
+            setSwapAmount(0)
+        } else {
+            setSwapAmount(e.target.valueAsNumber)
+        }
+        
+        setConvertedAmount(swapAmount * (1 / selectedToken.rate) * toToken.rate)
+    }
+
+    const handleSelectYTokens = () => {
+        const ytoks = []
+        for (const token of tokens) {
+            for (const swapToken in selectedToken.swapTokens) {
+                console.log(swapToken)
+                if (selectedToken.swapTokens[swapToken] === token.symbol) {
+                    ytoks.push(token)
+                }
+            }
+        }
+        setYTokens(ytoks)
     }
 
     return (
@@ -62,6 +78,7 @@ export default function From({ aptos, tokens, selectedToken, setSelectedToken, s
                                 <DropdownMenu.Item key={index} onSelect={async () => {
                                     setSelectedToken(token)
                                     await getAPTAmount(token)
+                                    handleSelectYTokens()
                                 }}>
                                     <Avatar
                                         src={token.logoURI}
@@ -76,7 +93,7 @@ export default function From({ aptos, tokens, selectedToken, setSelectedToken, s
                 </Flex>
                 <Flex gap="5" direction="column">
                     <Strong>Amount</Strong>
-                    <TextField.Root placeholder={swapAmount} size="3" type="number" onChange={handleChange}>
+                    <TextField.Root placeholder="10" size="3" type="number" onChange={handleChange}>
                         <TextField.Slot />
                     </TextField.Root>
                     <Text size="1">Balance: {aptAmount}</Text>

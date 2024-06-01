@@ -1,6 +1,6 @@
-import { Flex, Text, Strong, Box, DropdownMenu, Button, Avatar } from "@radix-ui/themes"
+import { Flex, Text, Strong, Box, DropdownMenu, Button, Avatar, TextField } from "@radix-ui/themes"
 
-export default function To({ tokens, selectedToken, setSelectedToken }) {
+export default function To({ tokens, toToken, fromToken, swapAmount, setConvertedAmount, convertedAmount, setToToken }) {
     return (
         <Flex gap="5" direction="column">
             <Text size="5">To</Text>
@@ -11,14 +11,14 @@ export default function To({ tokens, selectedToken, setSelectedToken }) {
                         <DropdownMenu.Trigger>
                             <Button variant="soft" size="4">
                                 {
-                                    selectedToken
+                                    toToken
                                     ?<Box py="3">
                                         <Avatar
-                                            src={selectedToken.logoURI}
+                                            src={toToken.logoURI}
                                             fallback="A"
                                             size="1"
                                         />
-                                        <Text>{selectedToken.symbol}</Text>
+                                        <Text>{toToken.symbol}</Text>
                                     </Box>
                                     : "Select Token"
                                 }
@@ -28,7 +28,8 @@ export default function To({ tokens, selectedToken, setSelectedToken }) {
                         <DropdownMenu.Content>
                             {tokens.map((token, index) => (
                                 <DropdownMenu.Item key={index} onSelect={() => {
-                                    setSelectedToken(token)
+                                    setToToken(token)
+                                    setConvertedAmount(swapAmount * (1 / fromToken.rate) * toToken.rate)
                                 }}>
                                     <Avatar
                                         src={token.logoURI}
@@ -41,12 +42,12 @@ export default function To({ tokens, selectedToken, setSelectedToken }) {
                         </DropdownMenu.Content>
                     </DropdownMenu.Root>
                 </Flex>
-                {/* <Flex gap="5" direction="column">
+                <Flex gap="5" direction="column">
                     <Strong>Amount</Strong>
-                    <TextField.Root placeholder={convertedAmount} size="3" disabled>
-                        <TextField.Slot />
+                    <TextField.Root placeholder="" size="3" disabled>
+                        <TextField.Slot>{convertedAmount}</TextField.Slot>
                     </TextField.Root>
-                </Flex> */}
+                </Flex>
             </Flex>
         </Flex>
     )
