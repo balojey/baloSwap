@@ -17,7 +17,7 @@ export default function SwapButton({ aptos, swapAmount, convertedAmount, fromTok
 
         const exp = Math.floor(Date.now() / 1000) + 60 * 10
 
-        console.log(fromToken, toToken)
+        // console.log(fromToken, toToken)
         
         let func: MoveStructId = "0xa5d3ac4d429052674ed38adc62d010e52d7c24ca159194d17ddc196ddb7e480b::pool::swap_y_to_x"
         let typeArgs = [toToken.address, fromToken.address]
@@ -51,7 +51,7 @@ export default function SwapButton({ aptos, swapAmount, convertedAmount, fromTok
             handleSetFromTokenAmount(res_amt_from)
             handleSetToTokenAmount(res_amt_to)
         } catch (error) {
-            console.error(error);
+            // console.error(error);
             notifyFailure()
         }
         setSwapLoading(false)

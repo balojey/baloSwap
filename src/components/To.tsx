@@ -15,11 +15,11 @@ export default function To({ tokens, toToken, fromToken, swapAmount, handleSetCo
                         <Flex gap="5" direction="column">
                             <DropdownMenu.Root>
                                 <DropdownMenu.Trigger disabled={
-                                    !fromToken.symbol || (swapAmount <= 0)
+                                    !fromToken || (swapAmount <= 0)
                                 }>
                                     <Button variant="soft" size="2">
                                         {
-                                            toToken.symbol
+                                            toToken
                                                 ? <Box py="3">
                                                     <Avatar
                                                         src={toToken.logoURI}

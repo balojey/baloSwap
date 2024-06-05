@@ -33,11 +33,11 @@ export default function SwapBox({ notifySuccess, notifyFailure }) {
                 const value = resource.coin.value / 100000000
                 return value
             } else {
-                console.log("Token not found")
+                // console.log("Token not found")
                 return 0
             }
         } catch (error) {
-            console.error("Error fetching token details:", error);
+            // console.error("Error fetching token details:", error);
             return 0
         }
     }
@@ -109,14 +109,17 @@ export default function SwapBox({ notifySuccess, notifyFailure }) {
     ]
     const [xTokens, setXTokens] = useState([])
     const [yTokens, setYTokens] = useState([])
-    const [fromToken, setFromToken] = useState({})
-    const [toToken, setToToken] = useState({})
+    const [fromToken, setFromToken] = useState<Token | null>(null)
+    const [toToken, setToToken] = useState<Token | null>(null)
     const [swapAmount, setSwapAmount] = useState(0)
     const [convertedAmount, setConvertedAmount] = useState(0)
     const [fromTokenAmount, setFromTokenAmount] = useState(0)
     const [toTokenAmount, setToTokenAmount] = useState(0)
 
-    const handleSetXTokens = () => setXTokens(prev => prev = tokens); console.log("xTokens: ", xTokens)
+    const handleSetXTokens = () => {
+        setXTokens(prev => prev = tokens)
+        // console.log("xTokens: ", xTokens)
+    }
     const handleSetYTokens = () => {
         const ytoks = []
         for (const token of tokens) {
@@ -126,7 +129,7 @@ export default function SwapBox({ notifySuccess, notifyFailure }) {
                 }
             }
         }
-        handleSetToToken({})
+        handleSetToToken(null)
         handleSetConvertedAmount()
         setYTokens(prev => prev = ytoks)
         // console.log(fromToken.symbol, " : ", yTokens)
@@ -145,7 +148,7 @@ export default function SwapBox({ notifySuccess, notifyFailure }) {
         // console.log("swapAmount: ", swapAmount)
     }
     const handleSetConvertedAmount = () => {
-        setConvertedAmount(prev => prev = swapAmount * (1 / fromToken.rate) * toToken.rate)
+        setConvertedAmount(prev => prev = swapAmount * (1 / Number(fromToken?.rate)) * Number(toToken?.rate))
         // console.log("convertedAmount: ", convertedAmount)
     }
     const handleSetFromTokenAmount = (value) => {

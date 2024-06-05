@@ -17,7 +17,7 @@ export default function From({ tokens, handleSetYTokens, fromToken, handleSetFro
             <Text size="5">From</Text>
             <Flex gap="5" direction="column">
                 <TextField.Root placeholder="Amount" size="3" type="number" onChange={handleChange} disabled={
-                    !fromToken.symbol
+                    !fromToken
                 }>
                     <TextField.Slot />
                 </TextField.Root>
@@ -28,7 +28,7 @@ export default function From({ tokens, handleSetYTokens, fromToken, handleSetFro
                             <DropdownMenu.Trigger>
                                 <Button variant="soft" size="2">
                                     {
-                                        fromToken.symbol
+                                        fromToken
                                         ? <Box py="3">
                                             <Avatar
                                                 src={fromToken.logoURI}
