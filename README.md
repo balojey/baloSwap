@@ -26,4 +26,12 @@ Experience fast, secure, and efficient token swaps with our Aptos Token Swap Int
   npm install ; npm run dev
 ```
 
+## Demo
+
+![alt Connect page](./assets/demo3.png)
+
+![alt Swap page demo 1](./assets/demo1.png)
+
+![alt Swap page demo 3](./assets/demo2.png)
+
 Thanks.
