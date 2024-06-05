@@ -4,7 +4,7 @@
 
 [Video Demo](https://www.loom.com/share/184f813850b44eb3a6d30b8d98a4d711?sid=6d502d22-1d82-4a49-a1d3-f69bb092b0f2)
 
- BaloSwap is an Aptos Token Swap Interface: a decentralized application (dApp) that enables users to seamlessly swap tokens on the Aptos blockchain. Developed using TypeScript, Radix UI, and the Aptos React Wallet Adapter, this user-friendly platform allows for easy wallet connection, token selection, and transaction execution.
+ BaloSwap is an Aptos Token Swap Interface: a decentralized application (dApp) that enables users to seamlessly swap tokens on the Aptos blockchain. Developed using TypeScript, Radix UI, the Aptos Typescript SDK and the Aptos React Wallet Adapter, this user-friendly platform allows for easy wallet connection, token selection, and transaction execution.
 
 **Key Features:**
 - **Wallet Integration:** Securely connect and interact with your Aptos wallet using the Aptos React Wallet Adapter.
