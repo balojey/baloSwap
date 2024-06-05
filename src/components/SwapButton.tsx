@@ -3,7 +3,7 @@ import { Button, Spinner } from "@radix-ui/themes"
 import { useState } from "react"
 import { MoveStructId } from "@aptos-labs/ts-sdk"
 
-export default function SwapButton({ aptos, swapAmount, convertedAmount, fromToken, toToken }) {
+export default function SwapButton({ aptos, swapAmount, convertedAmount, fromToken, toToken, notifySuccess, notifyFailure, getResourceAmount, handleSetFromTokenAmount, handleSetToTokenAmount }) {
 
     const {
         account,
@@ -45,8 +45,14 @@ export default function SwapButton({ aptos, swapAmount, convertedAmount, fromTok
         // if you want to wait for transaction
         try {
             await aptos.waitForTransaction({ transactionHash: response.hash });
+            notifySuccess()
+            const res_amt_from = await getResourceAmount(fromToken.address)
+            const res_amt_to = await getResourceAmount(toToken.address)
+            handleSetFromTokenAmount(res_amt_from)
+            handleSetToTokenAmount(res_amt_to)
         } catch (error) {
             console.error(error);
+            notifyFailure()
         }
         setSwapLoading(false)
     }
