@@ -21,7 +21,7 @@ export default function SwapButton({ aptos, swapAmount, convertedAmount, fromTok
         
         let func: MoveStructId = "0xa5d3ac4d429052674ed38adc62d010e52d7c24ca159194d17ddc196ddb7e480b::pool::swap_y_to_x"
         let typeArgs = [toToken.address, fromToken.address]
-        const funcArgs = [BigInt(swapAmount * 100000000), BigInt(Math.trunc(convertedAmount * 100000000))]
+        const funcArgs = [BigInt((swapAmount + (swapAmount * 2 / 100)) * 100000000), BigInt(Math.trunc(convertedAmount * 100000000))]
 
         if (
             (fromToken.symbol === "CAKE" && toToken.symbol === "APT") 
@@ -58,7 +58,11 @@ export default function SwapButton({ aptos, swapAmount, convertedAmount, fromTok
     }
 
     return (
-        <Button size="4" variant="classic" onClick={async () => await swap()}>
+        <Button size="4" variant="classic" onClick={async () => await swap()} disabled={
+            fromToken && toToken && swapAmount && convertedAmount
+            ? false
+            : true
+        }>
             <Spinner loading={swapLoading}>
                 Swap
             </Spinner>

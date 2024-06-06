@@ -5,6 +5,8 @@ import SwapButton from "./SwapButton";
 import { useEffect, useState } from "react";
 import { Aptos, MoveStructId, AptosConfig, Network } from "@aptos-labs/ts-sdk";
 import { useWallet } from "@aptos-labs/wallet-adapter-react"
+// import { atom, useAtomValue, useSetAtom, useAtom } from "jotai";
+// import type { PrimitiveAtom } from "jotai";
 
 export default function SwapBox({ notifySuccess, notifyFailure }) {
     // with custom configuration
@@ -107,6 +109,16 @@ export default function SwapBox({ notifySuccess, notifyFailure }) {
             swapTokens: ["APT"]
         },
     ]
+
+    // const xTokens = atom([])
+    // const yTokens = atom([])
+    // const fromToken = atom<PrimitiveAtom<Token | null>>(null)
+    // const toToken = atom<PrimitiveAtom<Token | null>>(null)
+    // const swapAmount = atom(0)
+    // const convertedAmount = atom(0)
+    // const fromTokenAmount = atom(0)
+    // const toTokenAmount = atom(0)
+
     const [xTokens, setXTokens] = useState([])
     const [yTokens, setYTokens] = useState([])
     const [fromToken, setFromToken] = useState<Token | null>(null)
@@ -117,7 +129,9 @@ export default function SwapBox({ notifySuccess, notifyFailure }) {
     const [toTokenAmount, setToTokenAmount] = useState(0)
 
     const handleSetXTokens = () => {
-        setXTokens(prev => prev = tokens)
+        // const setAtom = useSetAtom(xTokens)
+        // setAtom(tokens)
+        setXTokens(tokens)
         // console.log("xTokens: ", xTokens)
     }
     const handleSetYTokens = () => {
@@ -131,31 +145,34 @@ export default function SwapBox({ notifySuccess, notifyFailure }) {
         }
         handleSetToToken(null)
         handleSetConvertedAmount()
-        setYTokens(prev => prev = ytoks)
+        setYTokens(ytoks)
         // console.log(fromToken.symbol, " : ", yTokens)
     }
     const handleSetFromToken = (token) => {
-        setFromToken(prev => prev = token)
+        // const [, setAtom] = useAtom(fromToken)
+        // setAtom((token) => ({...token}))
+        setFromToken(token)
         // console.log("fromToken: ", fromToken)
     }
     const handleSetToToken = (token) => {
-        setToToken(prev => prev = token)
+        setToToken(token)
         handleSetConvertedAmount()
         // console.log("toToken: ", toToken)
     }
     const handleSetSwapAmount = (amt) => {
-        setSwapAmount(prev => prev = amt)
+        setSwapAmount(amt)
         // console.log("swapAmount: ", swapAmount)
     }
     const handleSetConvertedAmount = () => {
-        setConvertedAmount(prev => prev = swapAmount * (1 / Number(fromToken?.rate)) * Number(toToken?.rate))
+        const amt = swapAmount * (1 / Number(fromToken?.rate)) * Number(toToken?.rate)
+        setConvertedAmount(amt)
         // console.log("convertedAmount: ", convertedAmount)
     }
     const handleSetFromTokenAmount = (value) => {
-        setFromTokenAmount(prev => prev = value)
+        setFromTokenAmount(value)
     }
     const handleSetToTokenAmount = (value) => {
-        setToTokenAmount(prev => prev = value)
+        setToTokenAmount(value)
     }
 
     useEffect(() => {
